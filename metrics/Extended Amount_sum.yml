@@ -1,0 +1,7 @@
+unique_name: Extended Amount_sum
+object_type: metric
+label: Extended Amount
+calculation_method: sum
+column: extendedamount
+dataset: factinternetsales
+format: '#,###.00;(#,###.00)'

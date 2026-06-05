@@ -1,0 +1,7 @@
+unique_name: Discount Amount_sum
+object_type: metric
+label: Discount Amount
+calculation_method: sum
+column: discountamount
+dataset: factinternetsales
+format: '#,###.00;(#,###.00)'

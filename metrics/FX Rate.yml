@@ -1,0 +1,7 @@
+unique_name: FX Rate
+object_type: metric
+label: FX Rate
+calculation_method: average
+column: rates
+dataset: factcurrencyrate_conversion
+format: '#,###.000;(#,###.000)'
