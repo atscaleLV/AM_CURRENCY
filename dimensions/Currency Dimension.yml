@@ -1,0 +1,183 @@
+unique_name: Currency Dimension
+object_type: dimension
+label: Currency Dimension
+calculation_groups:
+  - unique_name: Actual vs Budgeted
+    label: Actual vs Budgeted Rate
+    description: >-
+      Standard metric currency conversions for the current year using actual and
+      budgeted rates
+    calculated_members:
+      - unique_name: Actual Rates
+        description: Metrics converted using actual currency rates
+        expression: >-
+          [Measures].currentMember *    ([Currency Dimension].[Rate Type
+          Hierarchy].[Rate Type].&[actualrate],   [Currency
+          Dimension].[Reporting Currency Hierarchy].CurrentMember,
+          [Measures].[FX Rate])
+        format: '#,###.00;(#,###.00)'
+      - unique_name: Budgeted Rates
+        description: Metrics converted using budgeted currency rates
+        expression: >-
+          [Measures].currentMember *    ([Currency Dimension].[Rate Type
+          Hierarchy].[Rate Type].&[budgetedrate],   [Currency
+          Dimension].[Reporting Currency Hierarchy].CurrentMember,
+          [Measures].[FX Rate])
+        format: '#,###.00;(#,###.00)'
+      - unique_name: Rate Difference
+        description: Difference in Metrics using Actual vs budgeted currency rates
+        expression: >-
+          ([Measures].currentMember *    ([Currency Dimension].[Rate Type
+          Hierarchy].[Rate Type].&[actualrate],   [Currency
+          Dimension].[Reporting Currency Hierarchy].CurrentMember,
+          [Measures].[FX Rate])) -  ([Measures].currentMember *    ([Currency
+          Dimension].[Rate Type Hierarchy].[Rate Type].&[budgetedrate],  
+          [Currency Dimension].[Reporting Currency Hierarchy].CurrentMember,
+          [Measures].[FX Rate]))
+        format: '#,###.00;(#,###.00)'
+      - unique_name: Rate Difference (%)
+        description: >-
+          Percentage Difference in Metrics using Actual vs budgeted currency
+          rates
+        expression: >-
+          DIVIDE(([Measures].currentMember *    ([Currency Dimension].[Rate Type
+          Hierarchy].[Rate Type].&[actualrate],   [Currency
+          Dimension].[Reporting Currency Hierarchy].CurrentMember,
+          [Measures].[FX Rate])) -  ([Measures].currentMember *    ([Currency
+          Dimension].[Rate Type Hierarchy].[Rate Type].&[budgetedrate],  
+          [Currency Dimension].[Reporting Currency Hierarchy].CurrentMember,
+          [Measures].[FX Rate])), ([Measures].currentMember *    ([Currency
+          Dimension].[Rate Type Hierarchy].[Rate Type].&[budgetedrate],  
+          [Currency Dimension].[Reporting Currency Hierarchy].CurrentMember,
+          [Measures].[FX Rate])))
+        format: percent
+    folder: Actual vs Budgeted Rates
+  - unique_name: CY Rates vs PY Rates
+    label: CY Rates vs PY Rates
+    description: >-
+      Standard metric currency conversions for the current year using actual and
+      budgeted rates for CY and PY
+    calculated_members:
+      - unique_name: CY Rates
+        description: Metrics converted using CY actual currency rates
+        expression: >-
+          [Measures].currentMember *    ([Currency Dimension].[Rate Type
+          Hierarchy].CurrentMember,   [Currency Dimension].[Reporting Currency
+          Hierarchy].CurrentMember, [Measures].[FX Rate])
+        format: '#,###.00;(#,###.00)'
+      - unique_name: PY Rates
+        description: Metrics converted using CY actual currency rates
+        expression: >-
+          [Measures].currentMember *    ([Currency Dimension].[Rate Type
+          Hierarchy].CurrentMember,   [Currency Dimension].[Reporting Currency
+          Hierarchy].CurrentMember, [Measures].[PY FX Rate])
+        format: '#,###.00;(#,###.00)'
+      - unique_name: Rate Difference
+        description: Difference in Metrics using CY vs PY currency rates
+        expression: >-
+          ([Measures].currentMember *    ([Currency Dimension].[Rate Type
+          Hierarchy].CurrentMember,   [Currency Dimension].[Reporting Currency
+          Hierarchy].CurrentMember, [Measures].[FX Rate])) - 
+          ([Measures].currentMember *    ([Currency Dimension].[Rate Type
+          Hierarchy].CurrentMember,   [Currency Dimension].[Reporting Currency
+          Hierarchy].CurrentMember, [Measures].[PY FX Rate]))
+        format: '#,###.00;(#,###.00)'
+      - unique_name: Rate Difference (%)
+        description: >-
+          Percentage Difference in Metrics using Actual vs budgeted currency
+          rates
+        expression: >-
+          DIVIDE(([Measures].currentMember *    ([Currency Dimension].[Rate Type
+          Hierarchy].CurrentMember,   [Currency Dimension].[Reporting Currency
+          Hierarchy].CurrentMember, [Measures].[FX Rate])) - 
+          ([Measures].currentMember *    ([Currency Dimension].[Rate Type
+          Hierarchy].CurrentMember,   [Currency Dimension].[Reporting Currency
+          Hierarchy].CurrentMember, [Measures].[PY FX Rate])),
+          ([Measures].currentMember *    ([Currency Dimension].[Rate Type
+          Hierarchy].CurrentMember,   [Currency Dimension].[Reporting Currency
+          Hierarchy].CurrentMember, [Measures].[PY FX Rate])))
+        format: percent
+    folder: CY Rates vs PY Rates
+hierarchies:
+  - unique_name: Base Currency Hierarchy
+    label: Base Currency Hierarchy
+    filter_empty: 'yes'
+    levels:
+      - unique_name: Base Currency
+  - unique_name: Reporting Currency Hierarchy
+    label: Reporting Currency Hierarchy
+    filter_empty: 'yes'
+    levels:
+      - unique_name: Reporting Currency
+      - unique_name: Reporting Currency Join
+        is_hidden: true
+      - unique_name: Reporting Date
+        is_hidden: true
+  - unique_name: Rate Type Hierarchy
+    label: Rate Type Hierarchy
+    levels:
+      - unique_name: Rate Type
+      - unique_name: Currency Join
+        is_hidden: true
+level_attributes:
+  - unique_name: Reporting Currency Join
+    label: Reporting Currency Join
+    contains_unique_names: false
+    dataset: factcurrencyrate_conversion
+    is_hidden: true
+    is_unique_key: false
+    key_columns:
+      - currencykey_to
+    name_column: currencykey_to
+  - unique_name: Reporting Currency
+    label: Reporting Currency
+    contains_unique_names: false
+    dataset: dimcurrency_reporting
+    is_unique_key: false
+    key_columns:
+      - currencykey
+    name_column: currencyalternatekey
+  - unique_name: Reporting Date
+    label: Reporting Date
+    contains_unique_names: false
+    dataset: factcurrencyrate_conversion
+    is_hidden: true
+    is_unique_key: false
+    key_columns:
+      - datekey
+    name_column: datekey
+  - unique_name: Rate Type
+    label: Rate Type
+    contains_unique_names: false
+    dataset: factcurrencyrate_conversion
+    is_unique_key: false
+    key_columns:
+      - ratetype
+    name_column: ratetype
+    sort_column: ratetype
+  - unique_name: Currency Join
+    label: Currency Join
+    contains_unique_names: false
+    dataset: factcurrencyrate_conversion
+    is_hidden: true
+    is_unique_key: false
+    key_columns:
+      - currencykey_to
+    name_column: currencykey_to
+  - unique_name: Base Currency
+    label: Base Currency
+    contains_unique_names: false
+    dataset: dimcurrency_base
+    is_unique_key: false
+    key_columns:
+      - currencykey
+    name_column: currencyalternatekey
+relationships:
+  - from:
+      dataset: factcurrencyrate_conversion
+      join_columns:
+        - currencykey_to
+    to:
+      level: Reporting Currency
+    type: snowflake
+type: standard
