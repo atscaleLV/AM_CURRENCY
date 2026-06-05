@@ -1,0 +1,61 @@
+unique_name: currency
+object_type: dataset
+label: currency
+columns:
+  - name: productkey
+    data_type: long
+connection_id: con_atscale_tutorial_data_adventureworks2012
+sql: |-
+  WITH CurrencyRates AS
+    (
+    SELECT 
+    curFrom.currencykey as currencykey_from,
+    curTo.currencykey as currencykey_to,
+    curFrom.datekey as datekey,
+    curFrom.averagerate / curTo.averagerate as actualrate,
+    (curFrom.endofdayrate / curTo.endofdayrate) * 1.1 as budgetedrate
+
+    FROM
+    atscale_tutorial_data.adventureworks2012.factcurrencyrate curFrom
+    JOIN atscale_tutorial_data.adventureworks2012.factcurrencyrate curTo
+    ON curTo.datekey = curfrom.datekey
+    WHERE
+    curfrom.currencykey in (6, 19, 29, 39, 98, 100) and
+    curto.currencykey in (36, 98, 100)
+    ),
+
+    JoiningKeys AS
+    (
+    SELECT
+    productkey,
+    currencykey,
+    salesterritorykey,
+    orderdatekey
+    FROM
+    atscale_tutorial_data.adventureworks2012.factinternetsales
+    GROUP BY
+    productkey,
+    currencykey,
+    salesterritorykey,
+    orderdatekey
+    ),
+
+    RatesTable AS 
+    (
+    SELECT
+    productkey,
+    salesterritorykey,
+    currencykey_from,
+    currencykey_to,
+    CurrencyRates.datekey,
+    actualrate,
+    budgetedrate
+    FROM
+    CurrencyRates
+    JOIN JoiningKeys 
+    ON CurrencyRates.currencykey_from = JoiningKeys.currencykey
+    AND CurrencyRates.datekey = JoiningKeys.orderdatekey
+    )
+
+    SELECT productkey
+    FROM RatesTable
