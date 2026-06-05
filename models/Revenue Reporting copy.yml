@@ -1,4 +1,4 @@
-unique_name: Revenue Reporting
+unique_name: Revenue Reporting copy
 object_type: model
 label: Currency_Reporting
 metrics:
@@ -6,8 +6,6 @@ metrics:
     folder: Base Currency Metrics
   - unique_name: Unit Price
     folder: Base Currency Metrics
-  - unique_name: FX Rate
-    folder: FX Rates
 relationships:
   - unique_name: factinternetsales_productkey_to_Product Dimension_Product Code
     from:
