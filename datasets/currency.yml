@@ -57,5 +57,17 @@ sql: |-
     AND CurrencyRates.datekey = JoiningKeys.orderdatekey
     )
 
-    SELECT productkey
+    SELECT productkey,
+    actualrate,
+    budgetedrate,
+    datekey,
+    currencykey_from,
+    currencykey_to,
+    salesterritorykey,
+    unpivoted.ratetype,
+    unpivoted.rates
     FROM RatesTable
+    CROSS JOIN LATERAL (VALUES
+      ('actualrate', actualrate),
+      ('budgetedrate', budgetedrate)
+    ) AS unpivoted(ratetype, rates)
