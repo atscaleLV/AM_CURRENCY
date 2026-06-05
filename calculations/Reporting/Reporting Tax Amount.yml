@@ -1,0 +1,6 @@
+unique_name: Reporting Tax Amount
+object_type: metric_calc
+label: Reporting Tax Amount
+expression: '[Measures].[Tax Amount_sum]*[Measures].[FX Rate]'
+format: '#,###.00;(#,###.00)'
+is_hidden: false

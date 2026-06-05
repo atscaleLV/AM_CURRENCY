@@ -1,0 +1,6 @@
+unique_name: Reporting Unit Price Discount
+object_type: metric_calc
+label: Reporting Unit Price Discount
+expression: '[Measures].[Unit Price Discount]*[Measures].[FX Rate]'
+format: '#,###.00;(#,###.00)'
+is_hidden: false

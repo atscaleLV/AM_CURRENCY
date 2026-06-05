@@ -1,0 +1,8 @@
+unique_name: PY FX Rate
+object_type: metric_calc
+label: PY FX Rate
+expression: >-
+  (ParallelPeriod([Date Dimension].[Date Month Hierarchy].[YearMonth], 1, [Date
+  Dimension].[Date Month Hierarchy].CurrentMember), [Measures].[FX Rate])
+format: '#,###.000;(#,###.000)'
+is_hidden: false

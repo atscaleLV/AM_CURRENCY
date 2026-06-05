@@ -1,0 +1,6 @@
+unique_name: Reporting Unit Price
+object_type: metric_calc
+label: Reporting Unit Price
+expression: '[Measures].[Unit Price]*[Measures].[FX Rate]'
+format: '#,###.00;(#,###.00)'
+is_hidden: false

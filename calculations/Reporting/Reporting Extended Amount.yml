@@ -1,0 +1,6 @@
+unique_name: Reporting Extended Amount
+object_type: metric_calc
+label: Reporting Extended Amount
+expression: '[Measures].[Extended Amount_sum]*[Measures].[FX Rate]'
+format: '#,###.00;(#,###.00)'
+is_hidden: false

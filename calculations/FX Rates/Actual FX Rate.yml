@@ -1,0 +1,8 @@
+unique_name: Actual FX Rate
+object_type: metric_calc
+label: Actual FX Rate
+expression: >-
+  ([Currency Dimension].[Rate Type Hierarchy].[Rate Type].&[actualrate],
+  [Measures].[FX Rate])
+format: '#,###.000;(#,###.000)'
+is_hidden: false

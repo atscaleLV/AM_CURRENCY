@@ -1,0 +1,8 @@
+unique_name: Budgeted FX Rate
+object_type: metric_calc
+label: Budgeted FX Rate
+expression: >-
+  ([Currency Dimension].[Rate Type Hierarchy].[Rate Type].&[budgetedrate],
+  [Measures].[FX Rate])
+format: '#,###.000;(#,###.000)'
+is_hidden: false

@@ -1,0 +1,6 @@
+unique_name: Reporting Sales Amount
+object_type: metric_calc
+label: Reporting Sales Amount
+expression: '[Measures].[Sales Amount_sum]*[Measures].[FX Rate]'
+format: '#,###.00;(#,###.00)'
+is_hidden: false
