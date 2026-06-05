@@ -3,4 +3,43 @@ object_type: model
 label: Currency_Reporting
 metrics:
   - unique_name: m_factinternetsales_salesamount_avg
-relationships: []
+relationships:
+  - unique_name: empty_dataset_Product_Dimension
+    from:
+      dataset: ''
+      join_columns: []
+    to:
+      dimension: Product Dimension
+      level: ''
+  - unique_name: empty_dataset_Date_Dimension
+    from:
+      dataset: ''
+      join_columns: []
+    to:
+      dimension: Date Dimension
+      level: ''
+  - unique_name: empty_dataset_Currency_Dimension
+    from:
+      dataset: ''
+      join_columns: []
+    to:
+      dimension: Currency Dimension
+      level: ''
+  - unique_name: factinternetsales_salesterritorykey_to_Geography Dimension_Geography Join
+    from:
+      dataset: factinternetsales
+      join_columns:
+        - salesterritorykey
+    to:
+      dimension: Geography Dimension
+      level: Geography Join
+  - unique_name: >-
+      factcurrencyrate_conversion_salesterritorykey_to_Geography
+      Dimension_Geography Join
+    from:
+      dataset: factcurrencyrate_conversion
+      join_columns:
+        - salesterritorykey
+    to:
+      dimension: Geography Dimension
+      level: Geography Join
