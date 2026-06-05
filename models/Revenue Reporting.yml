@@ -3,6 +3,9 @@ object_type: model
 label: Currency_Reporting
 metrics:
   - unique_name: m_factinternetsales_salesamount_avg
+    folder: Base Currency Metrics
+  - unique_name: Unit Price
+    folder: Base Currency Metrics
 relationships:
   - unique_name: factinternetsales_productkey_to_Product Dimension_Product Code
     from:
