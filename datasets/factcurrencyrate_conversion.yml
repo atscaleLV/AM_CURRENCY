@@ -1,11 +1,23 @@
-unique_name: currency
+unique_name: factcurrencyrate_conversion
 object_type: dataset
-label: currency
+label: factcurrencyrate_conversion
 columns:
+  - name: datekey
+    data_type: int
+  - name: currencykey_from
+    data_type: int
+  - name: currencykey_to
+    data_type: int
   - name: productkey
     data_type: long
+  - name: salesterritorykey
+    data_type: long
+  - name: rates
+    data_type: double
+  - name: ratetype
+    data_type: string
 connection_id: con_atscale_tutorial_data_adventureworks2012
-sql: |-
+sql: |+
   WITH CurrencyRates AS
     (
     SELECT 

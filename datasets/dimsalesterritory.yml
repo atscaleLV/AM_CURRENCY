@@ -1,0 +1,18 @@
+unique_name: dimsalesterritory
+object_type: dataset
+label: dimsalesterritory
+columns:
+  - name: salesterritorykey
+    data_type: long
+  - name: salesterritoryalternatekey
+    data_type: long
+  - name: salesterritoryregion
+    data_type: string
+  - name: salesterritorycountry
+    data_type: string
+  - name: salesterritorygroup
+    data_type: string
+  - name: salesterritoryimage
+    data_type: string
+connection_id: con_atscale_tutorial_data_adventureworks2012
+table: dimsalesterritory

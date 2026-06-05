@@ -1,0 +1,84 @@
+unique_name: dim_time_dataset
+object_type: dataset
+label: dim_time_dataset
+columns:
+  - name: pk_date
+    data_type: datetime
+  - name: datekey
+    data_type: decimal(10,0)
+  - name: date_name
+    data_type: string
+  - name: year
+    data_type: string
+  - name: year_name
+    data_type: string
+  - name: half_year
+    data_type: datetime
+  - name: half_year_name
+    data_type: string
+  - name: quarter
+    data_type: datetime
+  - name: quarter_name
+    data_type: string
+  - name: month
+    data_type: datetime
+  - name: month_name
+    data_type: string
+  - name: week
+    data_type: datetime
+  - name: week_name
+    data_type: string
+  - name: day_of_year
+    data_type: int
+  - name: day_of_year_name
+    data_type: string
+  - name: day_of_week
+    data_type: int
+  - name: day_of_week_name
+    data_type: string
+  - name: week_of_year
+    data_type: int
+  - name: week_of_year_name
+    data_type: string
+  - name: month_of_year
+    data_type: int
+  - name: month_of_year_name
+    data_type: string
+  - name: quarter_of_year
+    data_type: int
+  - name: quarter_of_year_name
+    data_type: string
+connection_id: con_atscale_tutorial_data_adventureworks2012
+sql: >-
+  SELECT 
+    date_day::timestamp as pk_date,
+    CAST(to_char(date_day, 'YYYYMMDD') AS decimal) as datekey,
+    to_char(date_day, 'Day, Month DD, YYYY') as date_name,
+    CAST(EXTRACT(YEAR FROM date_day) AS text) as year,
+    concat('Calendar ', to_char(date_day, 'YYYY')) as year_name,
+    CASE WHEN EXTRACT(QUARTER FROM date_day) < 3
+      THEN date_trunc('year', date_day)
+      ELSE date_trunc('year', date_day) + INTERVAL '6 months'
+    END as half_year,
+    CASE WHEN EXTRACT(QUARTER FROM date_day) < 3
+      THEN concat('Semester 1, ', to_char(date_day, 'YYYY'))
+      ELSE concat('Semester 2, ', to_char(date_day, 'YYYY'))
+    END as half_year_name,
+    date_trunc('quarter', date_day) as quarter,
+    concat('Quarter ', EXTRACT(QUARTER FROM date_day), ', ', EXTRACT(YEAR FROM date_day)) as quarter_name,
+    date_trunc('month', date_day) as month,
+    to_char(date_day, 'Month YYYY') as month_name,
+    date_trunc('week', date_day) as week,
+    concat('Week ', EXTRACT(WEEK FROM date_day), to_char(date_day, ', YYYY')) as week_name,
+    EXTRACT(DOY FROM date_day) as day_of_year,
+    concat('Day ', EXTRACT(DOY FROM date_day)) as day_of_year_name,
+    EXTRACT(DOW FROM date_day) as day_of_week,
+    to_char(date_day, 'Day') as day_of_week_name,
+    EXTRACT(WEEK FROM date_day) as week_of_year,
+    concat('Week ', EXTRACT(WEEK FROM date_day)) as week_of_year_name,
+    EXTRACT(MONTH FROM date_day) as month_of_year,
+    to_char(date_day, 'Month') as month_of_year_name,
+    EXTRACT(QUARTER FROM date_day) as quarter_of_year,
+    concat('Quarter ', EXTRACT(QUARTER FROM date_day)) as quarter_of_year_name
+  FROM generate_series(DATE '2006-01-01', DATE '2008-07-31', INTERVAL '1 day')
+  AS date_day
