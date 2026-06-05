@@ -1,0 +1,12 @@
+unique_name: Currency_Reporting
+object_type: model
+label: Currency_Reporting
+metrics: []
+relationships:
+  - unique_name: factinternetsales_empty_dimension
+    from:
+      dataset: factinternetsales
+      join_columns: []
+    to:
+      dimension: ''
+      level: ''
