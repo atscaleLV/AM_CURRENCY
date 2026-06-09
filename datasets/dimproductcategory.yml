@@ -1,6 +1,6 @@
-unique_name: sha_dimproductcategory
+unique_name: dimproductcategory
 object_type: dataset
-label: sha_dimproductcategory
+label: dimproductcategory
 columns:
   - name: productcategorykey
     data_type: long
